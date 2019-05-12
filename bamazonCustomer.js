@@ -2,38 +2,50 @@ var mysql = require('mysql')
 var inquirer = require('inquirer')
 
 var connection = mysql.createConnection({
-  host: 'localhost',
+    host: 'localhost',
 
-  // Your port; if not 3306
-  port: 3306,
+    // Your port; if not 3306
+    port: 3306,
 
-  // Your username
-  user: 'nodeuser',
+    // Your username
+    user: 'nodeuser',
 
-  // Your password
-  password: '',
-  database: 'bamazon'
+    // Your password
+    password: '',
+    database: 'bamazon'
 })
 
 connection.connect(function (err) {
-  if (err) throw err
-  console.log('connected as id ' + connection.threadId + '\n')
-  showItems();
-  connection.end();
+    if (err) throw err
+    console.log('connected as id ' + connection.threadId + '\n')
+    showItems();
 })
 
-function showItems () {
+function showItems() {
     // query the database for all items being auctioned
     connection.query('SELECT * FROM products', function (err, results) {
-      
-                if (err) throw err
-                for (var i = 0; i < results.length; i++) {
-                  console.log('Product: ' + results[i].product_name + ' || Price: ' + results[i].price + ' || Quantity: ' + results[i].stock_quantity)
-            }
-          })
+        if (err) throw err
+        for (var i = 0; i < results.length; i++) {
+            console.log('Sku: ' + results[i].sku + ' || Product: ' + results[i].product_name + ' || Price: ' + results[i].price + ' || Quantity: ' + results[i].stock_quantity)
         }
-    
-    
+        console.log('----------------------------------------------------------------------')
+        purchaseOption();
+    })
+    connection.end();
+}
+
+function purchaseOption() {
+    inquirer
+        .prompt({
+            name: 'artist',
+            type: 'input',
+            message: 'Enter Sku of item you would like to purchase: '
+        })
+        .then(function (answer) {
+            console.log("Purchased")
+
+        })
+}
 
 
 
