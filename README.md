@@ -6,7 +6,7 @@ Will show available products and prompt users with two messages:
 
 •	The second message will ask how many units of the product they would like to buy.
 
-**Once the customer has placed the order, the app will for available quantity.**
+**(Once the customer has placed the order, the app will check for available quantity)**
 
 •	If not, the app will log “Not enough” and then prevent the order from going through.
 
@@ -14,7 +14,7 @@ Will show available products and prompt users with two messages:
 
 ### **Bamazon Manager App**
 
-**Will list a set of menu options:
+**Will list a set of menu options:**
 
 •	View Products for Sale: The app will list every available item. (the item SKUs, names, prices, and quantities)
 
