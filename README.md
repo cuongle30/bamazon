@@ -1,6 +1,7 @@
 ### **Bamazon Customer App** 
+link to demo: https://drive.google.com/file/d/1lv-odOFtSV7Pt4aj4-34gtgafjJ1fYvb/view
 
-Will show available products and prompt users with two messages:
+**Will show available products and prompt users with two messages:**
 
 •	The first will ask them the SKU of the product they would like to buy.
 
