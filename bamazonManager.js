@@ -44,21 +44,22 @@ function viewProducts() {
     // query the database for all items being auctioned
     connection.query('SELECT sku,product_name,price,stock_quantity FROM products', function (err, results) {
         if (err) throw err
+        console.log('')
         console.table(results)
-        connection.end()
+        console.log('')
+        showOptions();
     })
 }
-//Function to view inventory under preset amount, 20.
+//Function to view inventory under preset amount, 5.
 function viewLowInv() {
-    connection.query('SELECT sku,product_name,price,stock_quantity FROM products WHERE stock_quantity <=20', function (err, results) {
+    connection.query('SELECT sku,product_name,price,stock_quantity FROM products WHERE stock_quantity <5', function (err, results) {
         if (err) throw err
         console.table(results)
-        connection.end()
+        showOptions();
     })
 }
 //Adding to Add to Inventory
 function addInv() {
-    connection.query('SELECT sku,product_name,price,stock_quantity FROM products', function (err, results) {
         inquirer.prompt([
             {
                 name: 'addSku',
@@ -70,20 +71,18 @@ function addInv() {
             }
         ]).then(function (value) {
             //Select sku to add
-            connection.query('SELECT sku,product_name,price,stock_quantity FROM products WHERE sku=?', function (err, results) {
+            connection.query('SELECT sku,product_name,price,stock_quantity FROM products WHERE sku=?', value.addSku, function (err, results) {
                 if (err) throw err
-
                 //Update stock_quantity for added sku 
-                connection.query('SELECT sku,product_name,price,stock_quantity FROM products WHERE sku=?', function (err, results) {
+                var addedInv = parseInt(results[0].stock_quantity + parseInt(value.quantity))
+                var product = results[0].product_name
+                connection.query('UPDATE products SET stock_quantity=? WHERE sku=?', [addedInv, value.addSku], function (err, results) {
                     if (err) throw err
                     //Add user entered stock quantity to current stock quantity
-                    var addedInv = value.parseInt(results[0].stock_quantity + parseInt(value.quantity))
-                    console.log(`${addedInv} added to ${results[0].product_name}`)
-                    connection.end();
+                    console.log(`${value.quantity} units added to ${product}`)
+                    viewProducts();
                 })
             })
-        })
-
     })
 }
 //Adding new inventory
